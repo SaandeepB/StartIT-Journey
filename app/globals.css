@@ -1,0 +1,214 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Theme — premium enterprise technology aesthetic
+   Dark navy foundation · white/light-grey type · electric blue + violet accents
+   Data colours are validated (see README → Design notes).
+   ──────────────────────────────────────────────────────────────────────────── */
+@theme {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-navy-950: #070b14;
+  --color-navy-900: #0b1120;
+  --color-navy-850: #0f1729;
+  --color-navy-800: #131d33;
+  --color-navy-700: #1b2742;
+  --color-navy-600: #26355a;
+
+  --color-ink-50: #f7f9fc;
+  --color-ink-100: #eef2f8;
+  --color-ink-200: #d7dee9;
+  --color-ink-300: #b6c0d1;
+  --color-ink-400: #8d9ab2;
+  --color-ink-500: #6a7791;
+  --color-ink-600: #4b5670;
+
+  --color-electric-300: #8cb4ff;
+  --color-electric-400: #5b93ff;
+  --color-electric-500: #3b7bff;
+  --color-electric-600: #2a63de;
+
+  --color-violet-300: #b8a9ff;
+  --color-violet-400: #9a86ff;
+  --color-violet-500: #7f66f5;
+
+  /* Rotation identity (categorical, validated adjacent + all-pairs on #0f1729) */
+  --color-r1: #3987e5;
+  --color-r2: #199e70;
+  --color-r3: #c98500;
+
+  /* Capability level (ordinal one-hue ramp, validated) */
+  --color-level-1: #1c5cab;
+  --color-level-2: #3987e5;
+  --color-level-3: #86b6ef;
+
+  /* Status (fixed, never themed) */
+  --color-good: #0ca30c;
+  --color-warning: #fab219;
+  --color-serious: #ec835a;
+  --color-critical: #d03b3b;
+
+  --shadow-card: 0 1px 0 0 rgba(255, 255, 255, 0.04) inset, 0 20px 50px -30px rgba(0, 0, 0, 0.8);
+  --shadow-glow: 0 0 0 1px rgba(91, 147, 255, 0.35), 0 24px 70px -24px rgba(59, 123, 255, 0.45);
+
+  --animate-fade-up: fade-up 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-dash: dash 2.4s linear infinite;
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes dash {
+    to { stroke-dashoffset: -24; }
+  }
+}
+
+/* ── Base (layered, so utilities can override) ────────────────────────────── */
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-navy-950 text-ink-100 font-sans antialiased;
+    font-feature-settings: "cv11", "ss01";
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: rgba(91, 147, 255, 0.35);
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(141, 154, 178, 0.35) transparent;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-electric-400);
+    outline-offset: 2px;
+  }
+}
+
+/* ── Reusable patterns ────────────────────────────────────────────────────── */
+@utility eyebrow {
+  @apply font-mono text-[11px] uppercase tracking-[0.18em] text-electric-300;
+}
+
+@utility card {
+  @apply rounded-2xl border border-white/8 bg-white/[0.03];
+  box-shadow: var(--shadow-card);
+}
+
+@utility card-hover {
+  transition: border-color 0.25s ease, transform 0.25s ease, background-color 0.25s ease;
+  &:hover {
+    @apply border-electric-400/40 bg-white/[0.045];
+    transform: translateY(-2px);
+  }
+}
+
+@utility hairline {
+  @apply border-white/8;
+}
+
+@utility text-balance {
+  text-wrap: balance;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+/* Gradient text for accent words */
+@utility text-gradient {
+  background: linear-gradient(92deg, var(--color-electric-300) 0%, var(--color-violet-300) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Soft ambient glows — used sparingly */
+.glow-field {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(60% 50% at 15% 10%, rgba(59, 123, 255, 0.18), transparent 60%),
+    radial-gradient(45% 40% at 85% 85%, rgba(127, 102, 245, 0.14), transparent 60%);
+}
+
+.grid-field {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(70% 60% at 50% 20%, black, transparent 80%);
+}
+
+/* Placeholder text — outlined so unfinished content is obvious while editing */
+.ph {
+  @apply rounded-sm text-ink-300;
+  box-shadow: 0 1px 0 0 rgba(250, 178, 25, 0.55);
+  background: rgba(250, 178, 25, 0.06);
+  padding: 0 0.15em;
+}
+
+/* Presentation slides */
+.slide {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Dialog scroll lock */
+body[data-dialog-open="true"] {
+  overflow: hidden;
+}
+
+/* ── Motion preferences ───────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Print ────────────────────────────────────────────────────────────────── */
+@media print {
+  @page { margin: 14mm; }
+  :root { color-scheme: light; }
+  html, body { background: #fff !important; }
+  body { color: #111 !important; font-size: 11pt; }
+  .no-print, nav, .glow-field, .grid-field { display: none !important; }
+  .print-break { break-before: page; }
+  .print-avoid { break-inside: avoid; }
+  .card, section, main, article, aside, div {
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+  .card { border: 1px solid #d4d8e0 !important; }
+  * { color: #111 !important; }
+  .print-muted, .eyebrow, .text-ink-400, .text-ink-500 { color: #4b5670 !important; }
+  [class*="border-white"], [class*="divide-white"] > * { border-color: #d4d8e0 !important; }
+  [class*="bg-white"], [class*="bg-electric"], [class*="bg-violet"], [class*="bg-warning"], [class*="bg-good"] {
+    background-color: #f3f5f9 !important;
+  }
+  .text-gradient { background: none !important; color: #1b3f9a !important; -webkit-text-fill-color: #1b3f9a; }
+  .ph { box-shadow: 0 1px 0 0 #c98500; background: #fff7e6; }
+  a { text-decoration: none; }
+  svg text { fill: #111 !important; }
+}
