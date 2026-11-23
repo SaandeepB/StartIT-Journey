@@ -7,7 +7,7 @@ built-in content editor so it can be updated from any device without touching co
 
 | Where | What |
 |---|---|
-| `/` | The full ten-section portfolio (scrolling, keyboard-navigable) |
+| `/` | The five-section portfolio: Introduction, The Journey, Projects & Impact, Growth & Feedback, What's Next |
 | `/present` | Presentation mode: one section per slide, full-screen, no editing controls |
 | `/summary` | One-page executive summary, print / save-as-PDF friendly |
 | `/rotations/1` … `/3` | Dedicated rotation portfolio pages |
@@ -76,13 +76,13 @@ from the content schema, so every field in every section is editable:
 | Section | What you can change |
 |---|---|
 | Profile & introduction | name, designation, programme, dates, headline, narrative, key capabilities, photo, contact |
-| Rotations | team, function, dates, manager / mentor, responsibilities, technologies, learnings |
+| Rotations | team, function, dates, manager / mentor, responsibilities, technologies, learnings, your ranking and why |
 | Projects | full 12-part case studies, ownership type, status, metrics, images, featured flag |
 | Performance reviews | rating, scale, numeric value, category, manager feedback, strengths, development areas, examples |
 | Feedback themes | recurring strengths / improvements / development areas and which rotations they appeared in |
 | Learning curve | capabilities per domain with the level reached in each rotation |
-| Highs, lows & turning points | moments, with the lesson or adaptation |
-| Technology stack | tool, category, rotations, use, exposure level, example project |
+| Highs, lows & turning points | moments, with the lesson or adaptation — shown inside the rotation they belong to |
+| Beyond the rotations | roles outside the rotations and memories, with photos |
 | AI initiatives | the 8-part structure plus before/after workflows and status |
 | Connecting the dots | pillars, insight, synthesis, cross-boundary opportunities |
 | Proposed role | title, positioning, pillars, 30-60-90 roadmap, closing message |
@@ -114,7 +114,7 @@ Changes are live immediately for everyone with the link — no redeploy, no URL 
 ## 4. Presenting
 
 - Click **Start presentation** on the landing page or open `/present`.
-- `→` `←` `Space` `PageUp/Down` move between the ten sections; `Home` / `End` jump;
+- `→` `←` `Space` `PageUp/Down` move between the five sections; `Home` / `End` jump;
   `F` toggles full screen; `Esc` returns to the portfolio. Controls fade after a few seconds
   so a shared screen shows only the slide. The slide number is kept in the URL (`/present#4`)
   so you can resume where you left off.
@@ -178,7 +178,7 @@ lib/content/defaults.ts    sample content with [placeholders] and isSample flags
 lib/content/store.ts       storage adapters: Upstash/Vercel KV · local file · memory fallback
 lib/content/helpers.ts     labels, rotation colours, rating-scale compatibility rule
 lib/auth.ts                HMAC tokens (WebCrypto, edge-safe), throttling
-components/viewer/         nav, progress, shortcuts, dialog, ten sections, presentation, summary
+components/viewer/         nav, progress, shortcuts, dialog, five sections, presentation, summary
 components/editor/         schema-driven form renderer (Field.tsx) and editor shell
 ```
 

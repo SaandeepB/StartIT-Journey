@@ -13,16 +13,11 @@ import { SECTIONS } from "./sections";
 import { Intro } from "./sections/Intro";
 import { Journey } from "./sections/Journey";
 import { Projects } from "./sections/Projects";
-import { Performance } from "./sections/Performance";
-import { Learning } from "./sections/Learning";
-import { Moments } from "./sections/Moments";
-import { TechStack } from "./sections/TechStack";
-import { AIInAction } from "./sections/AIInAction";
-import { Connecting } from "./sections/Connecting";
-import { Role } from "./sections/Role";
+import { Growth } from "./sections/Growth";
+import { Next } from "./sections/Next";
 import { cn } from "@/lib/utils";
 
-const SLIDES = [Intro, Journey, Projects, Performance, Learning, Moments, TechStack, AIInAction, Connecting, Role];
+const SLIDES = [Intro, Journey, Projects, Growth, Next];
 
 function isTyping(target: EventTarget | null) {
   const el = target as HTMLElement | null;

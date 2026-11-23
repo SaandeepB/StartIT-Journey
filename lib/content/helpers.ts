@@ -2,8 +2,8 @@ import type {
   AiStatus,
   Capability,
   Content,
-  Exposure,
   Level,
+  Moment,
   Ownership,
   Project,
   Review,
@@ -67,13 +67,6 @@ export const PROJECT_STATUS: Record<Project["status"], string> = {
   "in-progress": "In progress",
   prototype: "Prototype",
   proposed: "Proposed",
-};
-
-export const EXPOSURE: Record<Exposure, { label: string; rank: number; description: string }> = {
-  familiar: { label: "Familiar", rank: 1, description: "Theoretical familiarity, limited hands-on use" },
-  guided: { label: "Guided use", rank: 2, description: "Used with support from the team" },
-  "hands-on": { label: "Hands-on", rank: 3, description: "Implemented myself in real work" },
-  independent: { label: "Independent", rank: 4, description: "Designed and implemented end to end" },
 };
 
 export const LEVEL: Record<Level, { label: string; rank: number; short: string }> = {
@@ -140,15 +133,18 @@ export function levelCounts(capabilities: Capability[], rotationIds: string[]) {
 }
 
 export function summaryStats(content: Content) {
-  const technologies = new Set(content.techStack.map((t) => t.name));
+  const real = content.projects.filter((p) => !p.isSample);
   return {
     rotations: content.rotations.length,
-    projects: content.projects.length,
-    owned: content.projects.filter((p) => p.ownership === "owned").length,
-    technologies: technologies.size,
-    aiInitiatives: content.aiInitiatives.length,
+    projects: real.length,
+    owned: real.filter((p) => p.ownership === "owned").length,
+    beyond: content.beyond.filter((b) => b.kind === "activity" && !b.isSample).length,
     duration: content.profile.totalDurationLabel,
   };
+}
+
+export function momentsFor(content: Content, rotationId: string): Moment[] {
+  return content.moments.filter((m) => m.rotationId === rotationId);
 }
 
 export function featuredProjects(content: Content): Project[] {

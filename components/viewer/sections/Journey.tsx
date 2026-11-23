@@ -7,6 +7,8 @@ import { ArrowRight, Check, Lightbulb } from "lucide-react";
 import { useContent } from "../ContentContext";
 import { useProjectDialog } from "../ProjectDialog";
 import { Chips, OwnershipBadge } from "../ProjectBits";
+import { RotationMoments } from "./Moments";
+import { Beyond } from "./Beyond";
 import { Badge } from "@/components/ui/Badge";
 import { Container, Label, SectionHeading } from "@/components/ui/SectionHeading";
 import { Paragraphs, Text } from "@/components/ui/Text";
@@ -146,6 +148,10 @@ export function RotationDetail({ index, standalone }: { index: number; standalon
           </Link>
         )}
       </div>
+
+      <div className="lg:col-span-12">
+        <RotationMoments rotationId={rotation.id} />
+      </div>
     </div>
   );
 }
@@ -160,9 +166,9 @@ export function Journey() {
       <Container>
         <SectionHeading
           number="02"
-          eyebrow="The Rotational Journey"
-          title="Three teams. Three vantage points on the same organisation."
-          intro="Each rotation covered a different business function, with its own workflows, stakeholders and technologies. Select a rotation to see what it involved."
+          eyebrow="The Journey"
+          title="Three teams. Three vantage points on the same marketing engine."
+          intro="Each rotation covered a different part of marketing, with its own workflows, stakeholders and tools. Select a rotation to see what it involved, including its high, its low and what I learned."
         />
 
         <div className="relative mt-14">
@@ -228,6 +234,8 @@ export function Journey() {
             </motion.div>
           </AnimatePresence>
         </div>
+
+        <Beyond />
       </Container>
     </section>
   );

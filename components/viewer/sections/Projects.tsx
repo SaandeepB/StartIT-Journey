@@ -5,7 +5,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useContent } from "../ContentContext";
 import { ProjectCard } from "../ProjectCard";
 import { OwnershipBadge } from "../ProjectBits";
-import { Container, SectionHeading } from "@/components/ui/SectionHeading";
+import { Block } from "@/components/ui/SectionHeading";
+import { AIInAction } from "./AIInAction";
 import { Tabs } from "@/components/ui/Tabs";
 import { Text } from "@/components/ui/Text";
 import { OWNERSHIP, rotationColor } from "@/lib/content/helpers";
@@ -13,7 +14,7 @@ import { OwnershipEnum, type Ownership } from "@/lib/content/schema";
 
 type OwnFilter = Ownership | "all";
 
-export function Projects() {
+export function Projects({ part }: { part?: boolean }) {
   const content = useContent();
   const [rot, setRot] = useState<string>("all");
   const [own, setOwn] = useState<OwnFilter>("all");
@@ -48,14 +49,11 @@ export function Projects() {
   );
 
   return (
-    <section id="projects" className="relative py-24 sm:py-32">
-      <Container>
-        <SectionHeading
-          number="03"
-          eyebrow="Project Portfolio"
+    <Block id="projects" part={part} number="03"
+          eyebrow="Projects & Impact"
           title="What I delivered, and exactly how I was involved."
-          intro="Every project is a full case study: context, problem, role, approach, impact and learning. Ownership is stated plainly, and metrics appear only once measured."
-        />
+          intro="Each project is a short case study: the problem, my role, what was built and what changed. Ownership is stated plainly, and numbers appear only once measured."
+        >
 
         <div className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {OwnershipEnum.options.map((o) => (
@@ -99,7 +97,7 @@ export function Projects() {
             </Text>
           </p>
         )}
-      </Container>
-    </section>
+        <AIInAction part />
+    </Block>
   );
 }

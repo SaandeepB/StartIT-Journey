@@ -4,7 +4,7 @@ import { ArrowUpRight, Check, FileText, Quote } from "lucide-react";
 import { useContent } from "../ContentContext";
 import { RotationBadge } from "../ProjectBits";
 import { Badge, Dot } from "@/components/ui/Badge";
-import { Container, Label, SectionHeading } from "@/components/ui/SectionHeading";
+import { Block, Label } from "@/components/ui/SectionHeading";
 import { Paragraphs, Text } from "@/components/ui/Text";
 import { THEME_TYPE, compatibleScales, reviewFor, rotationColor, rotationShort } from "@/lib/content/helpers";
 import type { Review } from "@/lib/content/schema";
@@ -114,7 +114,7 @@ function RatingBars({ reviews }: { reviews: Review[] }) {
   );
 }
 
-export function Performance() {
+export function Performance({ part }: { part?: boolean }) {
   const content = useContent();
   const reviews = content.rotations
     .map((r) => reviewFor(content, r.id))
@@ -126,14 +126,11 @@ export function Performance() {
   }));
 
   return (
-    <section id="performance" className="relative py-24 sm:py-32">
-      <Container>
-        <SectionHeading
-          number="04"
-          eyebrow="Performance and Team Feedback"
-          title="Final ratings, in each team's own words."
+    <Block id="performance" part={part}
+          eyebrow="Performance & feedback"
+          title="Final reviews, in each team's own words."
           intro="Each rotation closed with a formal review. Ratings are shown on their original scale, alongside the feedback and the work that supports it."
-        />
+        >
 
         <div className="mt-12 grid grid-cols-1 gap-5 lg:grid-cols-3">
           {content.rotations.map((r, i) => {
@@ -223,7 +220,6 @@ export function Performance() {
             </div>
           </div>
         </div>
-      </Container>
-    </section>
+      </Block>
   );
 }

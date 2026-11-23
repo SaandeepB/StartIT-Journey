@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useContent } from "../ContentContext";
 import { Badge } from "@/components/ui/Badge";
-import { Container, SectionHeading } from "@/components/ui/SectionHeading";
+import { Block } from "@/components/ui/SectionHeading";
 import { Tabs } from "@/components/ui/Tabs";
 import { Text } from "@/components/ui/Text";
 import { LEVEL, levelCounts, rotationShort } from "@/lib/content/helpers";
@@ -129,7 +129,7 @@ function ProgressionChart({ domainTitle, rows }: { domainTitle: string; rows: Re
   );
 }
 
-export function Learning() {
+export function Learning({ part }: { part?: boolean }) {
   const content = useContent();
   const [domainId, setDomainId] = useState(content.learning[0]?.id ?? "");
   const domain = content.learning.find((d) => d.id === domainId) ?? content.learning[0];
@@ -139,22 +139,21 @@ export function Learning() {
   if (!domain) return null;
 
   return (
-    <section id="learning" className="relative py-24 sm:py-32">
-      <Container>
-        <SectionHeading
-          number="05"
-          eyebrow="The Learning Curve"
-          title="How each capability moved from introduced to independently applied."
-          intro="Capabilities are grouped into four domains. For each, the matrix shows the level reached in every rotation; the chart shows the progression."
-        />
+    <Block id="learning" part={part}
+          eyebrow="Learning curve"
+          title="How my capabilities moved across the three rotations."
+          intro="The level each capability reached in every rotation: introduced, practiced, or applied independently on real work."
+        >
 
         <div className="mt-10 flex flex-wrap items-center gap-3">
-          <Tabs
-            tabs={content.learning.map((d) => ({ id: d.id, label: d.title, count: d.capabilities.length }))}
-            value={domain.id}
-            onChange={setDomainId}
-            ariaLabel="Learning domain"
-          />
+          {content.learning.length > 1 && (
+            <Tabs
+              tabs={content.learning.map((d) => ({ id: d.id, label: d.title, count: d.capabilities.length }))}
+              value={domain.id}
+              onChange={setDomainId}
+              ariaLabel="Learning domain"
+            />
+          )}
           {domain.isSample && content.settings.showSampleBadges && (
             <Badge variant="sample">Sample progression — set your real levels in the editor</Badge>
           )}
@@ -214,7 +213,6 @@ export function Learning() {
             </p>
           </div>
         </div>
-      </Container>
-    </section>
+      </Block>
   );
 }
