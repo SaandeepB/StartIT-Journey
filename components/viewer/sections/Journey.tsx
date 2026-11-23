@@ -64,9 +64,11 @@ export function RotationDetail({ index, standalone }: { index: number; standalon
               <span className="text-2xl font-semibold text-white">
                 <Text>{review.rating}</Text>
               </span>
-              <span className="pb-0.5 text-xs text-ink-400">
-                on <Text>{review.ratingScale}</Text>
-              </span>
+              {review.ratingScale && (
+                <span className="pb-0.5 text-xs text-ink-400">
+                  on <Text>{review.ratingScale}</Text>
+                </span>
+              )}
             </div>
             {review.category && (
               <Badge variant="accent" className="mt-2">

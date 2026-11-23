@@ -6,7 +6,7 @@ import { RotationBadge } from "../ProjectBits";
 import { Badge, Dot } from "@/components/ui/Badge";
 import { Block, Label } from "@/components/ui/SectionHeading";
 import { Paragraphs, Text } from "@/components/ui/Text";
-import { THEME_TYPE, compatibleScales, reviewFor, rotationColor, rotationShort } from "@/lib/content/helpers";
+import { THEME_TYPE, compatibleScales, hasText, reviewFor, rotationColor, rotationShort } from "@/lib/content/helpers";
 import type { Review } from "@/lib/content/schema";
 import { cn } from "@/lib/utils";
 
@@ -46,9 +46,11 @@ export function ReviewCard({ review, index }: { review: Review; index: number })
           <span className="text-4xl font-semibold tracking-tight text-white">
             <Text>{review.rating}</Text>
           </span>
-          <span className="pb-1 text-xs text-ink-400">
-            scale: <Text>{review.ratingScale}</Text>
-          </span>
+          {hasText(review.ratingScale) && (
+            <span className="pb-1 text-xs text-ink-400">
+              scale: <Text>{review.ratingScale}</Text>
+            </span>
+          )}
         </div>
         {review.category && (
           <Badge variant="accent" className="mt-3">
@@ -57,6 +59,7 @@ export function ReviewCard({ review, index }: { review: Review; index: number })
         )}
       </div>
 
+      {hasText(review.managerFeedback) && (
       <blockquote className="mt-6 rounded-xl border border-white/8 bg-white/[0.03] p-4">
         <Quote className="h-4 w-4 text-violet-300" aria-hidden />
         <div className="mt-2 space-y-2 text-sm leading-relaxed text-ink-200">
@@ -64,6 +67,7 @@ export function ReviewCard({ review, index }: { review: Review; index: number })
         </div>
         <footer className="mt-2 text-[11px] text-ink-500">Manager feedback</footer>
       </blockquote>
+      )}
 
       <div className="mt-6 space-y-6">
         <ListBlock label="Key strengths recognised" icon={<Check className="h-4 w-4" />} items={review.strengths} />
