@@ -136,7 +136,7 @@ export const DEFAULT_CONTENT: Content = {
       businessContext:
         "Markets build an FY27 Business Needs QBR deck. Its Engagement metrics slide draws on the GSCS Demand Dashboard (Build Your Own MPI) in Power BI.",
       problemStatement:
-        "[How the Engagement metrics slide was filled before, and roughly how long it took per market.]",
+        "The Engagement metrics slide was filled in manually, market by market, from the dashboard.",
       whyItMattered:
         "QBR decks need numbers that match the dashboard exactly, for every market, without extra effort or extra Power BI access for the people preparing them.",
       myRole:
@@ -150,7 +150,7 @@ export const DEFAULT_CONTENT: Content = {
       solution:
         "A working generator, plus an overview of three rollout options: self-install (about 15 minutes per person, or a packaged version pending IT approval), an Azure App Service link (needs an Azure subscription, an app registration and a security review), or a Power BI page with the PowerPoint add-in (View access only, but the slide becomes a Power BI visual instead of editable text). Once Hydra allows Power BI integration, the tool can move into Hydra with some tweaks.",
       businessImpact:
-        "A deck takes about 20 seconds (about a minute with a picture of the dashboard), with numbers that match the dashboard. Walina [add title] responded: “I'm really excited about the innovation and initiative you've shown here… please keep bringing forward ideas like this. This is exactly the kind of innovative thinking and experimentation we want to encourage.” She introduced me to Ala to assess how it could be operationalised within data-security and Power BI permission requirements.",
+        "A deck takes about 20 seconds (about a minute with a picture of the dashboard), with numbers that match the dashboard. The response from leadership: “I'm really excited about the innovation and initiative you've shown here… please keep bringing forward ideas like this. This is exactly the kind of innovative thinking and experimentation we want to encourage.” I was connected with a colleague to assess how it could be operationalised within data-security and Power BI permission requirements.",
       keyLearning:
         "Scaling something beyond a prototype means pairing the innovation with the right governance and a sustainable operating model.",
       metrics: [{ label: "Time per deck", value: "≈20 seconds", note: "≈1 minute including a picture of the dashboard" }],
