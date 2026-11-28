@@ -1,14 +1,9 @@
 export const SECTIONS = [
   { id: "intro", number: "01", label: "Introduction", short: "Intro" },
-  { id: "journey", number: "02", label: "The Rotational Journey", short: "Journey" },
-  { id: "projects", number: "03", label: "Project Portfolio", short: "Projects" },
-  { id: "performance", number: "04", label: "Performance & Team Feedback", short: "Performance" },
-  { id: "learning", number: "05", label: "The Learning Curve", short: "Learning" },
-  { id: "moments", number: "06", label: "Highs, Lows & Turning Points", short: "Moments" },
-  { id: "stack", number: "07", label: "Technology Stack", short: "Stack" },
-  { id: "ai", number: "08", label: "AI in Action", short: "AI" },
-  { id: "connecting", number: "09", label: "Connecting the Dots", short: "Synthesis" },
-  { id: "role", number: "10", label: "Proposed Full-Time Role", short: "Next" },
+  { id: "journey", number: "02", label: "The Journey", short: "Journey" },
+  { id: "projects", number: "03", label: "Projects & Impact", short: "Projects" },
+  { id: "growth", number: "04", label: "Growth & Feedback", short: "Growth" },
+  { id: "next", number: "05", label: "What's Next", short: "Next" },
 ] as const;
 
 export type SectionId = (typeof SECTIONS)[number]["id"];

@@ -103,9 +103,9 @@ export function Intro() {
             <motion.div custom={4} variants={fade} initial="hidden" animate="show" className="mt-10 flex items-center gap-4">
               {profile.photoUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={profile.photoUrl} alt={profile.name} className="h-12 w-12 rounded-full object-cover ring-1 ring-white/15" />
+                <img src={profile.photoUrl} alt={profile.name} className="h-16 w-16 rounded-full object-cover object-top ring-1 ring-white/15" />
               ) : (
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-electric-500/40 to-violet-500/40 ring-1 ring-white/15 text-sm font-semibold text-white">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-electric-500/40 to-violet-500/40 ring-1 ring-white/15 text-sm font-semibold text-white">
                   {profile.name.replace(/[[\]]/g, "").split(" ").map((w) => w[0]).filter(Boolean).slice(0, 2).join("")}
                 </div>
               )}
@@ -132,8 +132,12 @@ export function Intro() {
               <div className="mt-6 grid grid-cols-2 gap-3">
                 <Stat label="Duration" value={<Text>{stats.duration}</Text>} />
                 <Stat label="Rotations" value={stats.rotations} />
-                <Stat label="Projects" value={stats.projects} note={`${stats.owned} personally owned`} />
-                <Stat label="Technologies" value={stats.technologies} note={`${stats.aiInitiatives} AI initiatives`} />
+                <Stat
+                  label="Projects"
+                  value={stats.projects || "—"}
+                  note={stats.projects ? `${stats.owned} personally owned` : "Case studies in progress"}
+                />
+                <Stat label="Beyond rotations" value={stats.beyond || "—"} note="Roles taken on alongside" />
               </div>
               <div className="mt-6">
                 <div className="eyebrow">Key capabilities developed</div>

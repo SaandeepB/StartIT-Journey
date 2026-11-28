@@ -4,9 +4,9 @@ import { ArrowUpRight, Check, FileText, Quote } from "lucide-react";
 import { useContent } from "../ContentContext";
 import { RotationBadge } from "../ProjectBits";
 import { Badge, Dot } from "@/components/ui/Badge";
-import { Container, Label, SectionHeading } from "@/components/ui/SectionHeading";
+import { Block, Label } from "@/components/ui/SectionHeading";
 import { Paragraphs, Text } from "@/components/ui/Text";
-import { THEME_TYPE, compatibleScales, reviewFor, rotationColor, rotationShort } from "@/lib/content/helpers";
+import { THEME_TYPE, compatibleScales, hasText, reviewFor, rotationColor, rotationShort } from "@/lib/content/helpers";
 import type { Review } from "@/lib/content/schema";
 import { cn } from "@/lib/utils";
 
@@ -46,9 +46,11 @@ export function ReviewCard({ review, index }: { review: Review; index: number })
           <span className="text-4xl font-semibold tracking-tight text-white">
             <Text>{review.rating}</Text>
           </span>
-          <span className="pb-1 text-xs text-ink-400">
-            scale: <Text>{review.ratingScale}</Text>
-          </span>
+          {hasText(review.ratingScale) && (
+            <span className="pb-1 text-xs text-ink-400">
+              scale: <Text>{review.ratingScale}</Text>
+            </span>
+          )}
         </div>
         {review.category && (
           <Badge variant="accent" className="mt-3">
@@ -57,6 +59,7 @@ export function ReviewCard({ review, index }: { review: Review; index: number })
         )}
       </div>
 
+      {hasText(review.managerFeedback) && (
       <blockquote className="mt-6 rounded-xl border border-white/8 bg-white/[0.03] p-4">
         <Quote className="h-4 w-4 text-violet-300" aria-hidden />
         <div className="mt-2 space-y-2 text-sm leading-relaxed text-ink-200">
@@ -64,6 +67,7 @@ export function ReviewCard({ review, index }: { review: Review; index: number })
         </div>
         <footer className="mt-2 text-[11px] text-ink-500">Manager feedback</footer>
       </blockquote>
+      )}
 
       <div className="mt-6 space-y-6">
         <ListBlock label="Key strengths recognised" icon={<Check className="h-4 w-4" />} items={review.strengths} />
@@ -114,7 +118,7 @@ function RatingBars({ reviews }: { reviews: Review[] }) {
   );
 }
 
-export function Performance() {
+export function Performance({ part }: { part?: boolean }) {
   const content = useContent();
   const reviews = content.rotations
     .map((r) => reviewFor(content, r.id))
@@ -126,14 +130,11 @@ export function Performance() {
   }));
 
   return (
-    <section id="performance" className="relative py-24 sm:py-32">
-      <Container>
-        <SectionHeading
-          number="04"
-          eyebrow="Performance and Team Feedback"
-          title="Final ratings, in each team's own words."
+    <Block id="performance" part={part}
+          eyebrow="Performance & feedback"
+          title="Final reviews, in each team's own words."
           intro="Each rotation closed with a formal review. Ratings are shown on their original scale, alongside the feedback and the work that supports it."
-        />
+        >
 
         <div className="mt-12 grid grid-cols-1 gap-5 lg:grid-cols-3">
           {content.rotations.map((r, i) => {
@@ -223,7 +224,6 @@ export function Performance() {
             </div>
           </div>
         </div>
-      </Container>
-    </section>
+      </Block>
   );
 }

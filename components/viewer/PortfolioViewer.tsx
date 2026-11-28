@@ -12,13 +12,8 @@ import { Text } from "@/components/ui/Text";
 import { Intro } from "./sections/Intro";
 import { Journey } from "./sections/Journey";
 import { Projects } from "./sections/Projects";
-import { Performance } from "./sections/Performance";
-import { Learning } from "./sections/Learning";
-import { Moments } from "./sections/Moments";
-import { TechStack } from "./sections/TechStack";
-import { AIInAction } from "./sections/AIInAction";
-import { Connecting } from "./sections/Connecting";
-import { Role } from "./sections/Role";
+import { Growth } from "./sections/Growth";
+import { Next } from "./sections/Next";
 
 export function Footer() {
   const content = useContent();
@@ -59,13 +54,8 @@ export function PortfolioViewer({ content }: { content: Content }) {
           <Intro />
           <Journey />
           <Projects />
-          <Performance />
-          <Learning />
-          <Moments />
-          <TechStack />
-          <AIInAction />
-          <Connecting />
-          <Role />
+          <Growth />
+          <Next />
         </main>
         <Footer />
         <BackToTop />

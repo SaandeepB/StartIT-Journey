@@ -165,14 +165,22 @@ export function ExecutiveSummary({ content }: { content: Content }) {
                 </ul>
               </div>
               <div className="print-avoid">
-                <Label>AI initiatives</Label>
+                <Label>Beyond the rotations</Label>
                 <ul className="mt-3 space-y-2">
-                  {content.aiInitiatives.map((a) => (
-                    <li key={a.id} className="flex items-center justify-between gap-3 text-sm text-ink-200">
-                      <span><Text>{a.title}</Text></span>
-                      <Badge variant="outline">{AI_STATUS[a.status].label}</Badge>
+                  {content.beyond.map((b, i) => (
+                    <li key={i} className="flex items-center justify-between gap-3 text-sm text-ink-200">
+                      <span><Text>{b.title}</Text></span>
+                      {b.context && <span className="shrink-0 text-xs text-ink-500"><Text>{b.context}</Text></span>}
                     </li>
                   ))}
+                  {content.aiInitiatives
+                    .filter((a) => !a.isSample)
+                    .map((a) => (
+                      <li key={a.id} className="flex items-center justify-between gap-3 text-sm text-ink-200">
+                        <span><Text>{a.title}</Text></span>
+                        <Badge variant="outline">{AI_STATUS[a.status].label}</Badge>
+                      </li>
+                    ))}
                 </ul>
               </div>
             </section>

@@ -6,22 +6,12 @@ import { ArrowRight, ChevronDown } from "lucide-react";
 import { useContent } from "../ContentContext";
 import { Chips, MetricTile, RotationBadge } from "../ProjectBits";
 import { Badge } from "@/components/ui/Badge";
-import { Container, Label, SectionHeading } from "@/components/ui/SectionHeading";
+import { Block, Label } from "@/components/ui/SectionHeading";
 import { Tabs } from "@/components/ui/Tabs";
 import { Paragraphs, Text } from "@/components/ui/Text";
 import { AI_STATUS, hasText } from "@/lib/content/helpers";
 import type { AiInitiative, AiStatus } from "@/lib/content/schema";
 import { cn } from "@/lib/utils";
-
-const PIPELINE = [
-  "Business Systems",
-  "Data Sources",
-  "APIs / Integrations",
-  "Analytics",
-  "AI Layer",
-  "Business Insights",
-  "Action",
-];
 
 const statusVariant: Record<AiStatus, "outline" | "warning" | "accent" | "good"> = {
   idea: "outline",
@@ -202,41 +192,23 @@ function InitiativeCard({ initiative }: { initiative: AiInitiative }) {
   );
 }
 
-export function AIInAction() {
+export function AIInAction({ part }: { part?: boolean }) {
   const content = useContent();
+  if (part && content.aiInitiatives.length === 0) return null;
   return (
-    <section id="ai" className="relative py-24 sm:py-32">
-      <div className="glow-field opacity-60" aria-hidden />
-      <Container className="relative">
-        <SectionHeading
-          number="08"
-          eyebrow="AI in Action — Beyond Experimentation"
-          title="AI Is Not Just a Tool. It's Becoming My Operating Model."
-          intro="Beyond prompting: identifying use cases, designing the workflow, integrating the systems, validating the output and being explicit about what is a prototype and what is in production."
-        />
-
-        <div className="card mt-12 p-6 sm:p-8">
-          <Label>The pattern I keep applying</Label>
-          <div className="mt-4">
-            <Pipeline steps={PIPELINE} />
-          </div>
-          <p className="mt-4 max-w-3xl text-sm leading-relaxed text-ink-400">
-            Connect the systems, get the data out through APIs, make it comparable in an analytics layer, then let an AI layer
-            draft, summarise or route — with a person validating before anything becomes an action.
-          </p>
-        </div>
-
-        <div className="mt-8 space-y-6">
-          {content.aiInitiatives.map((init) => (
-            <InitiativeCard key={init.id} initiative={init} />
-          ))}
-          {content.aiInitiatives.length === 0 && <p className="text-sm text-ink-500">No AI initiatives added yet.</p>}
-        </div>
-
-        <p className="mt-8 text-xs text-ink-500">
-          Status labels are deliberate: Idea → Prototype → Pilot → In production. Nothing is described as production unless it is relied on day to day.
-        </p>
-      </Container>
-    </section>
+    <Block
+      id="ai"
+      part={part}
+      eyebrow="AI in Action"
+      title="Where AI changed how the work gets done."
+      intro="Each initiative shows the workflow before and after, what I personally built, and an honest status: Idea → Prototype → Pilot → In production."
+    >
+      <div className="mt-10 space-y-6">
+        {content.aiInitiatives.map((init) => (
+          <InitiativeCard key={init.id} initiative={init} />
+        ))}
+        {content.aiInitiatives.length === 0 && <p className="text-sm text-ink-500">No AI initiatives added yet.</p>}
+      </div>
+    </Block>
   );
 }

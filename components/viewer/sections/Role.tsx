@@ -4,26 +4,23 @@ import Link from "next/link";
 import { Bot, ChartColumn, FileText, Link2, Mail, Network, Users, Workflow } from "lucide-react";
 import { useContent } from "../ContentContext";
 import { ButtonLink } from "@/components/ui/Button";
-import { Container, Label, SectionHeading } from "@/components/ui/SectionHeading";
+import { Block, Label } from "@/components/ui/SectionHeading";
 import { Paragraphs, Text } from "@/components/ui/Text";
 import { hasText } from "@/lib/content/helpers";
 
 const icons = [Network, Workflow, ChartColumn, Bot, Users];
 
-export function Role() {
+export function Role({ part }: { part?: boolean }) {
   const content = useContent();
   const role = content.proposedRole;
   const { profile } = content;
 
   return (
-    <section id="role" className="relative py-24 sm:py-32">
-      <Container>
-        <SectionHeading
-          number="10"
-          eyebrow="My Proposed Full-Time Role"
-          title="Where I Can Create the Most Value Next."
+    <Block id="role" part={part}
+          eyebrow="The role I'm aiming for"
+          title="A role that connects marketing, analytics and AI."
           intro={<Text>{role.positioning}</Text>}
-        />
+        >
 
         <div className="card mt-10 flex flex-wrap items-center justify-between gap-4 p-6">
           <div>
@@ -33,7 +30,7 @@ export function Role() {
             </div>
           </div>
           <p className="max-w-sm text-xs leading-relaxed text-ink-400">
-            The exact title can be refined with leadership. The five pillars below describe the scope and the value.
+            The exact title can be refined with leadership. The pillars below describe the scope and the value.
           </p>
         </div>
 
@@ -143,7 +140,6 @@ export function Role() {
             </div>
           </div>
         </div>
-      </Container>
-    </section>
+      </Block>
   );
 }

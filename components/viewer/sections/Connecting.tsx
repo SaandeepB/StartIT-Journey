@@ -3,11 +3,11 @@
 import { motion } from "framer-motion";
 import { useContent } from "../ContentContext";
 import { Dot } from "@/components/ui/Badge";
-import { Container, Label, SectionHeading } from "@/components/ui/SectionHeading";
+import { Block, Label } from "@/components/ui/SectionHeading";
 import { Paragraphs, Text } from "@/components/ui/Text";
 import { rotationColor, rotationIndex, rotationShort } from "@/lib/content/helpers";
 
-export function Connecting() {
+export function Connecting({ part }: { part?: boolean }) {
   const content = useContent();
   const { pillars, insight, synthesis, crossBoundaryOpportunities } = content.connectingDots;
   const n = Math.max(pillars.length, 1);
@@ -22,15 +22,11 @@ export function Connecting() {
   const colsClass = cols[Math.min(n, 6)] ?? "md:grid-cols-5";
 
   return (
-    <section id="connecting" className="relative py-24 sm:py-32">
-      <Container>
-        <SectionHeading
-          number="09"
-          eyebrow="Connecting the Dots"
-          title="Three Rotations. One Emerging Strength."
-          intro="Each rotation showed one part of the organisation from the inside. Together they add up to a view no single team has."
-          align="center"
-        />
+    <Block id="connecting" part={part}
+          eyebrow="Connecting the dots"
+          title="Three rotations. One end-to-end view of marketing."
+          intro="Each rotation showed one stage of the marketing workflow from the inside. Together they add up to a view no single team has."
+        >
 
         <div className="relative mt-14">
           <ol className={`grid grid-cols-2 gap-3 md:gap-4 ${colsClass}`}>
@@ -132,7 +128,6 @@ export function Connecting() {
             </ol>
           </div>
         </div>
-      </Container>
-    </section>
+      </Block>
   );
 }

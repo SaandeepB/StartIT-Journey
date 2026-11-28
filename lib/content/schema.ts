@@ -74,14 +74,6 @@ export const ProjectStatusEnum = z.enum([
   "proposed",
 ]);
 
-export const ExposureEnum = z.enum([
-  "familiar",
-  "guided",
-  "hands-on",
-  "independent",
-]);
-export type Exposure = z.infer<typeof ExposureEnum>;
-
 export const LevelEnum = z.enum(["none", "introduced", "practiced", "applied"]);
 export type Level = z.infer<typeof LevelEnum>;
 
@@ -89,17 +81,6 @@ export const MomentTypeEnum = z.enum(["high", "low", "turning"]);
 
 export const AiStatusEnum = z.enum(["idea", "prototype", "pilot", "production"]);
 export type AiStatus = z.infer<typeof AiStatusEnum>;
-
-export const TechCategoryEnum = z.enum([
-  "Programming and Analytics",
-  "Business Intelligence and Reporting",
-  "Marketing Analytics and Measurement",
-  "Data Platforms and Warehousing",
-  "APIs and Integrations",
-  "AI and LLM Tools",
-  "Workflow Automation",
-]);
-export type TechCategory = z.infer<typeof TechCategoryEnum>;
 
 export const ThemeTypeEnum = z.enum(["strength", "improved", "developing"]);
 
@@ -138,6 +119,11 @@ export const RotationSchema = z.object({
   responsibilities: strList("Primary responsibilities, one per line"),
   technologies: strList("Technologies used in this rotation"),
   learnings: strList("Important learnings from this rotation"),
+  rank: meta(z.number().nullable().default(null), {
+    label: "My ranking",
+    help: "Your preference ranking of this rotation (1 = top pick). Leave empty to hide the ranking.",
+  }),
+  rankReason: longText("One or two sentences on why it sits at this rank", 2, "Why this rank"),
 });
 export type Rotation = z.infer<typeof RotationSchema>;
 
@@ -250,24 +236,24 @@ export const MomentSchema = z.object({
 });
 export type Moment = z.infer<typeof MomentSchema>;
 
-/* ── Technology stack ────────────────────────────────────────────────────── */
+/* ── Beyond the rotations ────────────────────────────────────────────────── */
 
-export const TechSchema = z.object({
-  name: text(),
+export const BeyondKindEnum = z.enum(["activity", "memory"]);
+
+export const BeyondSchema = z.object({
+  kind: meta(BeyondKindEnum.default("activity"), {
+    help: "Activity = a role you took on outside your rotations · Memory = a moment worth remembering",
+  }),
   isSample: meta(z.boolean().default(false), {
     label: "Sample content",
     help: "Sample items display a “replace me” badge until you turn this off",
   }),
-  category: TechCategoryEnum.default("Programming and Analytics"),
-  rotationIds: rotationRefs("Rotations where this technology was used"),
-  usedFor: text("What you used it for, in one line"),
-  exposure: meta(ExposureEnum.default("hands-on"), {
-    help: "Familiar = theoretical familiarity · Guided = used with support · Hands-on = implemented yourself · Independent = designed and implemented end-to-end",
-  }),
-  exampleProjectId: projectRef(),
-  description: longText("Short description shown when the card is expanded", 3),
+  title: text("e.g. Trainer — Siemens GPT"),
+  context: text("Where or when, e.g. Realize LIVE 2026"),
+  description: longText("What you did and why it mattered", 4),
+  images: z.array(ImageSchema).default([]),
 });
-export type Tech = z.infer<typeof TechSchema>;
+export type BeyondItem = z.infer<typeof BeyondSchema>;
 
 /* ── AI initiatives ──────────────────────────────────────────────────────── */
 
@@ -405,7 +391,7 @@ export const ContentSchema = z.object({
   feedbackThemes: z.array(FeedbackThemeSchema).default([]),
   learning: z.array(LearningDomainSchema).default([]),
   moments: z.array(MomentSchema).default([]),
-  techStack: z.array(TechSchema).default([]),
+  beyond: z.array(BeyondSchema).default([]),
   aiInitiatives: z.array(AiInitiativeSchema).default([]),
   connectingDots: ConnectingDotsSchema,
   proposedRole: ProposedRoleSchema,
@@ -423,20 +409,21 @@ export const EDITOR_SECTIONS: {
   key: SectionKey;
   title: string;
   description: string;
+  group: string;
 }[] = [
-  { key: "profile", title: "Profile & introduction", description: "Name, program, headline, narrative and key capabilities." },
-  { key: "rotations", title: "Rotations", description: "The three teams: dates, people, responsibilities, technologies, learnings." },
-  { key: "projects", title: "Projects", description: "Case studies organised by rotation. The most important section." },
-  { key: "performance", title: "Performance reviews", description: "Final ratings, scales, manager feedback and supporting evidence." },
-  { key: "feedbackThemes", title: "Feedback themes", description: "Recurring strengths, improvements and development areas." },
-  { key: "learning", title: "Learning curve", description: "Capabilities by domain and the level reached in each rotation." },
-  { key: "moments", title: "Highs, lows & turning points", description: "Authentic moments that shaped how you work." },
-  { key: "techStack", title: "Technology stack", description: "Tools, where you used them, and your level of exposure." },
-  { key: "aiInitiatives", title: "AI initiatives", description: "Before/after workflows, architecture, status and next steps." },
-  { key: "connectingDots", title: "Connecting the dots", description: "The strategic synthesis across rotations." },
-  { key: "proposedRole", title: "Proposed role", description: "Pillars, 30-60-90 roadmap and closing message." },
-  { key: "executiveSummary", title: "Executive summary", description: "The one-page version for leadership." },
-  { key: "settings", title: "Settings", description: "Placeholder highlighting and sample badges." },
+  { group: "01 Introduction", key: "profile", title: "Profile & introduction", description: "Name, program, headline, narrative, key capabilities and photo." },
+  { group: "02 The Journey", key: "rotations", title: "Rotations", description: "The three teams: dates, people, responsibilities, tools, learnings and your ranking." },
+  { group: "02 The Journey", key: "moments", title: "Highs, lows & turning points", description: "Shown inside each rotation. Pick the rotation each moment belongs to." },
+  { group: "02 The Journey", key: "beyond", title: "Beyond the rotations", description: "Roles outside your rotations and memories worth sharing, with photos." },
+  { group: "03 Projects & Impact", key: "projects", title: "Projects", description: "Case studies organised by rotation. The most important section." },
+  { group: "03 Projects & Impact", key: "aiInitiatives", title: "AI initiatives", description: "Before/after workflows, what you built, status and next steps." },
+  { group: "04 Growth & Feedback", key: "performance", title: "Performance reviews", description: "Final ratings, scales, manager feedback and supporting evidence." },
+  { group: "04 Growth & Feedback", key: "feedbackThemes", title: "Feedback themes", description: "Recurring strengths, improvements and development areas." },
+  { group: "04 Growth & Feedback", key: "learning", title: "Learning curve", description: "Capabilities and the level reached in each rotation." },
+  { group: "05 What's Next", key: "connectingDots", title: "Connecting the dots", description: "The strategic synthesis across rotations." },
+  { group: "05 What's Next", key: "proposedRole", title: "Proposed role", description: "Pillars, 30-60-90 roadmap and closing message." },
+  { group: "Other", key: "executiveSummary", title: "Executive summary", description: "The one-page version for leadership (/summary)." },
+  { group: "Other", key: "settings", title: "Settings", description: "Placeholder highlighting and sample badges." },
 ];
 
 /* ── Helpers ─────────────────────────────────────────────────────────────── */

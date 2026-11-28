@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -320,12 +320,16 @@ export function Editor({ initial, status }: { initial: Content; status: EditorSt
             <span title="Bracketed placeholders remaining">{totalPlaceholders} placeholders left</span>
           </div>
           <nav className="no-scrollbar flex gap-1 overflow-x-auto lg:flex-col" aria-label="Editor sections">
-            {EDITOR_SECTIONS.map((s) => {
+            {EDITOR_SECTIONS.map((s, i) => {
               const active = s.key === section;
               const n = placeholderCounts[s.key];
+              const groupStart = i === 0 || EDITOR_SECTIONS[i - 1].group !== s.group;
               return (
+                <Fragment key={s.key}>
+                {groupStart && (
+                  <div className="hidden px-3 pb-1 pt-3 font-mono text-[10px] uppercase tracking-wider text-ink-600 first:pt-0 lg:block">{s.group}</div>
+                )}
                 <button
-                  key={s.key}
                   type="button"
                   onClick={() => setSection(s.key)}
                   className={cn(
@@ -336,6 +340,7 @@ export function Editor({ initial, status }: { initial: Content; status: EditorSt
                   <span className="whitespace-nowrap">{s.title}</span>
                   {n > 0 && <span className="rounded-full bg-warning/15 px-1.5 font-mono text-[10px] text-ink-200">{n}</span>}
                 </button>
+                </Fragment>
               );
             })}
           </nav>
